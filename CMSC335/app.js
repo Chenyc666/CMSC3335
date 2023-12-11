@@ -67,6 +67,27 @@ app.get('/market', (req, res) => {
     });
 });
 
+
+app.post('/marketResult', async(req, res) => {
+    // Fetch shoes data from MongoDB and  
+    try{
+    
+            await client.connect();
+            const result = client.db(databaseAndCollection.db).collection(databaseAndCollection.collection);
+        
+            await result.insertOne(variables);
+        
+            await client.close();
+        
+            res.render("marketResult", variables);
+        
+          } catch (e){
+            console.error(e)
+          }
+        
+ 
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
