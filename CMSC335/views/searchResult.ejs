@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<h1><strong>Display The Stock For User Request</strong></h1>
+	<h1><strong>Display The Stock And Price For User Request</strong></h1>
 	<form action="/searchResult2" method="POST">
 	<div class = "search-container" >
 
@@ -20,11 +20,11 @@
             </div>
             <!-- Checkbox -->
             <label>
-                <input type="checkbox" name="someCheckbox" > Address Check
+                <input type="checkbox" name="someCheckbox" required>Are you really want to check out?
             </label>
             <!-- Submit button -->
             <div>
-                <input type="submit" value="Submit" >
+                <input type="submit" value="Check Out" >
             </div>
         <% } else { %>
             <p>No results found!</p>
@@ -33,7 +33,7 @@
     </div>
 
 </form>
-	<div class="link_home" >
+	<div class="link" >
     <a href="/">HOME</a>
 </div>
 </body>
