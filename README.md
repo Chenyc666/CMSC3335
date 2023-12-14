@@ -6,5 +6,6 @@ Shoes Market
 
 ## install dependency
 
-`npm install @google-cloud/recaptcha-enterprise`
+```bash
+npm install @google-cloud/recaptcha-enterprise
 
