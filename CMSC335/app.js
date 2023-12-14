@@ -3,7 +3,7 @@ const path = require('path')
 const { argv } = require('process')
 const app = express()
 const { MongoClient, ServerApiVersion } = require('mongodb')
- 
+const { RecaptchaEnterpriseServiceClient } = require('@google-cloud/recaptcha-enterprise');
 
 
 // ----------- Set up .env, Database and Collection Name -----------
@@ -25,6 +25,47 @@ const client = new MongoClient(uri, {
 
 let db;
 
+// Google reCAPTCHA setup
+const recaptchaClient = new RecaptchaEnterpriseServiceClient();
+
+async function verifyRecaptcha(token) {
+  const projectID = process.env.RECAPTCHA_PROJECT_ID;
+  const recaptchaKey = process.env.RECAPTCHA_SITE_KEY;
+  const recaptchaAction = 'login'; // Example action
+
+  const projectPath = recaptchaClient.projectPath(projectID);
+
+  const assessmentRequest = {
+    assessment: {
+      event: {
+        token: token,
+        siteKey: recaptchaKey,
+      },
+    },
+    parent: projectPath,
+  };
+
+  try {
+    const [response] = await recaptchaClient.createAssessment(assessmentRequest);
+    
+    if (!response.tokenProperties.valid) {
+      console.log(`Invalid token: ${response.tokenProperties.invalidReason}`);
+      return false;
+    }
+
+    if (response.tokenProperties.action === recaptchaAction) {
+      console.log(`reCAPTCHA score: ${response.riskAnalysis.score}`);
+      return response.riskAnalysis.score;
+    } else {
+      console.log("Action mismatch in reCAPTCHA token");
+      return false;
+    }
+  } catch (error) {
+    console.error('Error during reCAPTCHA verification:', error);
+    return false;
+  }
+}
+
 client.connect()
     .then(() => {
         console.log('Connected to MongoDB');
@@ -45,32 +86,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 //---------------------API ------------------------
 
-
-// const translateText = async () => {
-//   const url = 'https://text-translator2.p.rapidapi.com/translate';
-//   const options = {
-//     method: 'POST',
-//     headers: {
-//       'content-type': 'application/x-www-form-urlencoded',
-//       'X-RapidAPI-Key': '453b6217ebmsh13952074b32d187p1e832ajsn8e3870176252',
-//       'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com'
-//     },
-//     body: new URLSearchParams({
-//       source_language: 'en',
-//       target_language: 'id',
-//       text: 'What is your name?'
-//     })
-//   };
-
-//   try {
-//     const response = await fetch(url, options);
-//     const result = await response.text();
-//     console.log(result);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
-
 // ------------------ ROUTES ------------------
 
 // GET - home page
@@ -88,13 +103,28 @@ app.get('/market', (req, res) => {
 // POST - applyResult page - Insert apply to DB
 app.post('/marketResult', async (req, res) => {
 
-	const { zipcode,brand,size } = req.body
+	let { price,brand,size } = req.body
 	const now = new Date()
     // Basic validation (you can expand this as needed)
-    if ( !zipcode||!brand|| !size) {
+    if ( !brand|| !size) {
         return res.status(400).send("Invalid input data");
     }
+    const lowerBrand = brand.toLowerCase();
 
+    if (lowerBrand.includes('jordan')){
+        price = 200;
+    } else if  (lowerBrand.includes('adidas')){
+        price = 120;
+    }else if  (lowerBrand.includes('puma')){
+        price = 80;
+    }else if  (lowerBrand.includes('nike')){
+        price = 160;
+    }else if  (lowerBrand.includes('yeezy')){
+        price = 220;
+    }else{
+        price = 50;
+    }
+    
 	try {
 		await client.connect()
 
@@ -103,7 +133,8 @@ app.post('/marketResult', async (req, res) => {
 
 		// Insert apply to DB
 		await app_collection.insertOne({
-            // zipcode:zipcode,
+            // zipcode:zipcode,   
+            price:price,
 			brand:brand,
 			size:size,
 			date: new Date(),
@@ -112,10 +143,14 @@ app.post('/marketResult', async (req, res) => {
 		await client.close()
 
 		return res.render('marketResult', {
-            zipcode:zipcode,
+            price: price,
 			brand:brand,
 			size:size,
 			date: new Date(),
+            redirectData: {
+				brand: brand,
+				size: size,
+			},
 		})
 	} catch (error) {
 		console.error(error);
@@ -153,12 +188,7 @@ app.post('/searchResult', async(req, res) => {
         let ans = '<table><thead><tr><th>Brand</th><th>Size</th><th>Price</th></tr></thead><tbody>';
 
         applicantResult2.forEach( i => {
-            // const sourceLanguage = 'auto'; // auto-detect language
-            // const targetLanguage = 'en'; // translate to English
-      
-            // const translatedBrand = await translateText(i.brand, sourceLanguage, targetLanguage);
-            // const translatedSize = await translateText(i.size, sourceLanguage, targetLanguage);
-      
+
 
             ans += `<tr><td>${i.brand}</td><td>${i.size}</td><td>${i.price}</td></tr>`;
         });
@@ -172,6 +202,50 @@ app.post('/searchResult', async(req, res) => {
         client.close();
 
         res.render("searchResult", variables);
+    } catch (e) {
+        console.error(e);
+        res.send('Error occurred while processing the request.');
+    }
+});
+
+
+app.post('/searchResult2', async (req, res) => {
+
+    let size = req.body.size;
+
+    let brand = req.body.brand;
+
+    const filter = {
+        size: size, // assuming size is a variable containing the user input
+        brand: brand // assuming brand is a variable containing the user input
+    };
+
+    try {
+        // const client = await MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        await client.connect()
+        const result = db.collection(data_collection.collection);
+        const applicantResult = await result.find(filter);
+
+        // let applicantResult2 = await applicantResult.toArray();
+
+        // let ans = '<table><thead><tr><th>Brand</th><th>Size</th><th>Price</th></tr></thead><tbody>';
+
+        // applicantResult2.forEach( i => {
+
+
+            // ans += `<tr><td>${i.brand}</td><td>${i.size}</td><td>${i.price}</td></tr>`;
+        // });
+
+        // ans += '</tbody></table>';
+
+        const variables = {
+            brand: brand,
+            size: size
+        };
+
+        client.close();
+
+        res.render("searchResult2", variables);
     } catch (e) {
         console.error(e);
         res.send('Error occurred while processing the request.');
