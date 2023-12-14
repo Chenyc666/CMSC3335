@@ -5,35 +5,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
-  <title>Shoe Market Results</title>
+  <title>shoes Market Results</title>
 </head>
 <body>
-  <h1><strong>Shoe Market Results</strong></h1>
+  <h1><strong>shoes Market Results</strong></h1>
 
   <div class="container">
     <div class="row"> 
-      <strong>Search Zipcode: </strong> <%= zipcode %>
+      <strong>Search Zipcode: </strong> <%= price %>
+    </div>
+    <div class="row"> 
+      <strong>Search Brand: </strong> <%= brand %>
     </div>
 
-    <div class="results">
-      <% shoes.forEach(function(shoe) { %>
-        <div class="row"> 
-          <strong>Size: </strong> <%= shoe.size %>
-        </div>
-
-        <div class="row"> 
-          <strong>Brand: </strong> <%= shoe.brand %>
-        </div>
-
-        <div class="row"> 
-          <strong>Location: </strong> <%= shoe.location %>
-        </div>
-
-        <hr>
-      <% }); %>
+    <div class="row"> 
+      <strong>Search Size: </strong> <%= size %>
     </div>
 
-    <a href="/market">Back to Search</a>
   </div>
+
 </body>
 </html>
