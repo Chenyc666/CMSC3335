@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="app.js"></script>
+
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Shoes Market</title>
+</head>
+<body>
+  <h1>Shoes Market Search</h1>
+
+  <form action="/marketResult" method="POST" id="searchForm">
+    <div id="div-form" >
+      <div class="row">
+        <label for="brand"><strong>Enter Your Brand: </strong></label>
+        <input type="text" name="brand" id="brand" required>
+      </div>
+      <div class="row">
+        <label for="size"><strong>Enter Your Size: </strong></label>
+        <input type="text" name="size" id="size" required>
+      </div>
+      <div  id="searchForm"  class="g-recaptcha" data-sitekey ="6LfpyjApAAAAAIkoZwAQSyvegqT7sxv1R1B0n_-9" data-callback="recaptchaCallback"></div> 
+    </div>
+          <!-- Google reCAPTCHA widget -->
+          
+    <input type="submit" value="Submit Application">
+    <input type="reset" value="Reset">
+    <!-- <div id = "divRecaptcha" class="g-recaptcha" ></div> -->
+
+  </form>
+
+  <div class = "link">
+    <a href="/">HOME</a>
+  </div>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <script>
+    var isRecaptchaValid = false;
+
+    function recaptchaCallback() {
+      isRecaptchaValid = true;
+    }
+
+    document.getElementById('searchForm').onsubmit = function(event) {
+      if (!isRecaptchaValid) {
+        event.preventDefault(); // Prevent form submission
+        alert('Please complete the reCAPTCHA.');
+      }
+      // Form will submit if reCAPTCHA is valid
+    };
+  </script>
+</body>
+</html>

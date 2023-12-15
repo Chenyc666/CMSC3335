@@ -1,0 +1,234 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f6f6f6;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.search-container {
+    max-width: 700px; /* Increased width for better layout */
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* Headings */
+h1 {
+    font-size: 2.5rem; /* Larger font size for headings */
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between; /* Align items in a row */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input Fields */
+input[type="text"], select {
+    width: calc(50% - 10px); /* Adjust width for inline display */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button */
+.search-button {
+    display: block;
+    width: 100%;
+    padding: 15px; /* Increased padding for better visibility */
+    background-color: #007bff; /* Amazon-like blue color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.search-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Table Styles */
+.table-container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+.link {
+    text-align: center; /* Centers the content within the link container */
+    margin-top: 20px; /* Adjust as needed for spacing */
+}
+
+th {
+    background-color: #007bff; /* Amazon-like blue color */
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Link Style */
+.link a {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link a:hover {
+    background-color: #e68a00;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column;
+    }
+
+    input[type="text"], select {
+        width: 100%; /* Full width in mobile view */
+    }
+}
+
+/* Home Page Container */
+.home-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Home Page Headings */
+.home-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Home Page Links Styled as Buttons */
+.home-container .link a {
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #ff9900;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.home-container .link a:hover {
+    background-color: #e68a00;
+}
+
+
+/* Improved Form Styling */
+#div-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.row {
+    margin-bottom: 15px;
+}
+
+.row label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+.row input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+/* ... [Other CSS styles] ... */
+
+/* Refined Button Styles */
+form input[type="submit"], form input[type="reset"] {
+    width: 13%; /* Reduced width for a more compact layout */
+    padding: 8px; /* Less padding for a smaller button size */
+    margin-top: 10px; /* Reduced margin */
+    border: none;
+    border-radius: 4px; /* Slightly rounded corners */
+    cursor: pointer;
+    font-size: 0.9rem; /* Slightly smaller font size */
+    font-weight: bold; /* Keeping text bold */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: background-color 0.2s, box-shadow 0.2s; /* Smooth transition for hover effects */
+}
+
+form input[type="submit"] {
+    background-color: #4CAF50; /* Green for submit */
+    color: white;
+    margin-left: 40%; /* Space between the buttons */
+}
+
+form input[type="reset"] {
+    background-color: #f44336; /* Red for reset */
+    color: white;
+}
+
+form input[type="submit"]:hover, form input[type="reset"]:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    background-color: darken(#4CAF50, 10%); /* Darker shade for hover (green button) */
+}
+
+form input[type="reset"]:hover {
+    background-color: darken(#f44336, 10%); /* Darker shade for hover (red button) */
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    form input[type="submit"], form input[type="reset"] {
+        width: 100%; /* Full width for smaller screens */
+        margin-left: 45%;
+        margin-top: 8px;
+    }
+}
+
