@@ -182,11 +182,16 @@ app.post('/searchResult', async(req, res) => {
         await client.connect()
         const result = db.collection(data_collection.collection);
         const applicantResult = await result.find(filter);
-
+        let ans = "";
         let applicantResult2 = await applicantResult.toArray();
-
-        let ans = '<table><thead><tr><th>Brand</th><th>Size</th><th>Price</th></tr></thead><tbody>';
-
+        
+        if (applicantResult2.length === 0) {
+            
+             ans = 'Not Finding Your Request!';
+        
+        }else{
+         ans = '<table><thead><tr><th>Brand</th><th>Size</th><th>Price</th></tr></thead><tbody>';
+        
         applicantResult2.forEach( i => {
 
 
@@ -194,7 +199,10 @@ app.post('/searchResult', async(req, res) => {
         });
 
         ans += '</tbody></table>';
+        
+        ans +=  '<label><input type="checkbox" name="someCheckbox" required>Are you really want to check out?</label><div><input type="submit" value="Check Out" ></div>';
 
+    }
         const variables = {
             stock: ans
         };
@@ -221,22 +229,11 @@ app.post('/searchResult2', async (req, res) => {
     };
 
     try {
-        // const client = await MongoClient.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+        
         await client.connect()
         const result = db.collection(data_collection.collection);
         const applicantResult = await result.find(filter);
 
-        // let applicantResult2 = await applicantResult.toArray();
-
-        // let ans = '<table><thead><tr><th>Brand</th><th>Size</th><th>Price</th></tr></thead><tbody>';
-
-        // applicantResult2.forEach( i => {
-
-
-            // ans += `<tr><td>${i.brand}</td><td>${i.size}</td><td>${i.price}</td></tr>`;
-        // });
-
-        // ans += '</tbody></table>';
 
         const variables = {
             brand: brand,
