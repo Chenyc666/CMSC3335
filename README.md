@@ -22,3 +22,6 @@ npm install @google-cloud/recaptcha-enterprise
 ## Demo Video
  
 https://www.youtube.com/watch?v=SDIjgkigiI4
+
+## API
+https://www.google.com/recaptcha/about/
