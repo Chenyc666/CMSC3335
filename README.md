@@ -1,6 +1,6 @@
 # CMSC335 Final Project
 
-Sneaker Market
+Shoes Market
 
 # Webiste 
 https://cmsc335-final-project-12k7.onrender.com/
