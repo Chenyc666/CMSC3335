@@ -200,7 +200,7 @@ app.post('/searchResult', async(req, res) => {
 
         ans += '</tbody></table>';
         
-        ans +=  '<label><input type="checkbox" name="someCheckbox" required>Are you really want to check out?</label><div><input type="submit" value="Check Out" ></div>';
+        ans +=  '<label><input type="checkbox" name="someCheckbox" required>Are you really want to check out?</label><div><input type="submit" value="Finish Search" ></div>';
 
     }
         const variables = {
